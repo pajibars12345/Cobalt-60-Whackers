@@ -1,0 +1,112 @@
+<html>
+        <head><title>Downloaded HTML</title></head>
+        <body>
+            <pre style="white-space: pre-wrap; word-wrap: break-word;"><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cobalt-60 Cancer Blaster</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background: #f2f2f2;
+        margin: 0;
+    }
+    h1 { color: #333; }
+    #game-area {
+        width: 90%;
+        height: 400px;
+        margin: 20px auto;
+        border: 2px solid #333;
+        background: #fff;
+        position: relative;
+        overflow: hidden;
+    }
+    .cancer {
+        width: 50px;
+        height: 50px;
+        background: url('https://i.imgur.com/v4lGhjB.png') no-repeat center/cover;
+        position: absolute;
+        cursor: pointer;
+    }
+    #score, #timer {
+        font-size: 18px;
+        margin: 10px;
+    }
+    button {
+        padding: 10px 20px;
+        background: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+    }
+    button:hover {
+        background: #45a049;
+    }
+</style>
+</head>
+<body>
+
+<h1>Cobalt-60 Cancer Blaster</h1>
+<p id="score">Score: 0</p>
+<p id="timer">Time: 30</p>
+<button onclick="startGame()">Start Game</button>
+
+<div id="game-area"></div>
+
+<script>
+let score = 0;
+let timeLeft = 30;
+let gameInterval, spawnInterval;
+
+function startGame() {
+    score = 0;
+    timeLeft = 30;
+    document.getElementById('score').innerText = "Score: " + score;
+    document.getElementById('timer').innerText = "Time: " + timeLeft;
+    document.getElementById('game-area').innerHTML = "";
+    clearInterval(gameInterval);
+    clearInterval(spawnInterval);
+    
+    gameInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timer').innerText = "Time: " + timeLeft;
+        if (timeLeft <= 0) {
+            clearInterval(gameInterval);
+            clearInterval(spawnInterval);
+            alert("Game Over! You zapped " + score + " cancer cells!");
+        }
+    }, 1000);
+
+    spawnInterval = setInterval(spawnCancer, 800);
+}
+
+function spawnCancer() {
+    const gameArea = document.getElementById('game-area');
+    const cancer = document.createElement('div');
+    cancer.classList.add('cancer');
+    cancer.style.top = Math.random() * (gameArea.clientHeight - 50) + "px";
+    cancer.style.left = Math.random() * (gameArea.clientWidth - 50) + "px";
+    
+    cancer.onclick = function() {
+        score++;
+        document.getElementById('score').innerText = "Score: " + score;
+        cancer.remove();
+    };
+
+    gameArea.appendChild(cancer);
+    setTimeout(() => {
+        if (cancer.parentNode) cancer.remove();
+    }, 1500);
+}
+</script>
+
+</body>
+</html>
+</pre>
+        </body>
+    </html>
